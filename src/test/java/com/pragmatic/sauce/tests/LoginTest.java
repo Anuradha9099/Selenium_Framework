@@ -2,7 +2,9 @@ package com.pragmatic.sauce.tests;
 
 import com.pragmatic.sauce.base.BaseTest;
 import com.pragmatic.sauce.pages.LoginPage;
- import  static org.testng.Assert.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import  static org.testng.Assert.*;
 
 import com.pragmatic.sauce.pages.ProductsPage;
 import com.pragmatic.sauce.util.ConfigReader;
@@ -17,7 +19,19 @@ public class LoginTest extends BaseTest {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.login(ConfigReader.getProperty("demo.username"),ConfigReader.getProperty("demo.password"));
         ProductsPage productsPage = new ProductsPage(driver);
-        assertEquals(productsPage.getTitle(),"Products");
+
+        // assertj assertion
+        assertThat(productsPage.getTitle())
+                .isEqualTo("Products")
+                .as("Page title is not as expected")
+                .contains("Products")
+                .startsWith("Pro")
+                .endsWith("cts")
+                .doesNotContain("Login")
+                .isNotBlank()
+                .isNotEmpty()
+                .isNotNull();
+
     }
 
     @Test
@@ -71,7 +85,6 @@ public class LoginTest extends BaseTest {
     }
 
 
-
     @Test
     public void testPlaceholdersInLoginPage() {
         SoftAssert softAssert = new SoftAssert();
@@ -80,5 +93,4 @@ public class LoginTest extends BaseTest {
         softAssert.assertEquals(loginPage.getPasswordPlaceholder(), "Password");
         softAssert.assertAll();
     }
-
 }

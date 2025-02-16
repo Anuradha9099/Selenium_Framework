@@ -13,7 +13,6 @@ import org.testng.asserts.SoftAssert;
 import static com.pragmatic.sauce.util.LogManager.*;
 
 import java.lang.reflect.Method;
-import java.time.Duration;
 
 public class BaseTest {
 
